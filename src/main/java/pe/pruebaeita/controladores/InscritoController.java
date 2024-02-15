@@ -16,6 +16,8 @@ import pe.pruebaeita.transferencias.InscritoDto;
 @RequestMapping("/api/inscritos")
 public class InscritoController {
 	
+	//Solo se ha implementado la búsqueda de todos los elementos
+	
 	@Autowired
 	private IInscritoService srvc_inscritos;
 	

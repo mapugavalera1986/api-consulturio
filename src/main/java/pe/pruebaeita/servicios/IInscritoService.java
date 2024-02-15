@@ -8,7 +8,7 @@ import pe.pruebaeita.transferencias.InscritoDto;
 public interface IInscritoService {
 	List<InscritoDto> listarTodos();
 	Optional<InscritoDto> buscar(int id);
-	List<InscritoDto> buscarContacto(int cuidadorId);
+	List<InscritoDto> buscarContacto(int contactoId);
 	InscritoDto agregar(InscritoDto inscrito_nuevo);
 	InscritoDto modificar(int id, InscritoDto inscrito_modificar);
 	void eliminar(int id);
