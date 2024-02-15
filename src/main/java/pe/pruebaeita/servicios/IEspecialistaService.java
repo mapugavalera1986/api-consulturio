@@ -3,11 +3,11 @@ package pe.pruebaeita.servicios;
 import java.util.List;
 import java.util.Optional;
 
-import pe.pruebaeita.transferencias.TerapeutaDto;
+import pe.pruebaeita.transferencias.EspecialistaDto;
 
 
-public interface ITerapeutaService {
-	List<TerapeutaDto> listarTodos();
+public interface IEspecialistaService {
+	List<EspecialistaDto> listarTodos();
 	/*Optional<TerapeutaDto> buscar(int id);
 	TerapeutaDto agregar(TerapeutaDto c_nuevo);
 	TerapeutaDto modificar(int id, TerapeutaDto c_cambiar);

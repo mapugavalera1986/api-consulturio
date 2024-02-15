@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 import pe.pruebaeita.modelos.Especialidad;
-import pe.pruebaeita.modelos.Terapeuta;
-import pe.pruebaeita.transferencias.TerapeutaDto;
+import pe.pruebaeita.modelos.Especialista;
+import pe.pruebaeita.transferencias.EspecialistaDto;
 
 @Component
-public class TerapeutaMapper {
+public class EspecialistaMapper {
 
-	public TerapeutaDto volverDto (Terapeuta ingresar) {
-		TerapeutaDto egresar = new TerapeutaDto();
+	public EspecialistaDto volverDto (Especialista ingresar) {
+		EspecialistaDto egresar = new EspecialistaDto();
 		egresar.setTerapeutaId(ingresar.getTerapeutaId());
 		egresar.setNmbrs(ingresar.getNmbrs());
 		egresar.setApllds(ingresar.getApllds());
@@ -26,8 +26,8 @@ public class TerapeutaMapper {
 		return egresar;
 	}
 	
-	public Terapeuta volverEntidad(TerapeutaDto ingresar) {
-		Terapeuta egresar = new Terapeuta();
+	public Especialista volverEntidad(EspecialistaDto ingresar) {
+		Especialista egresar = new Especialista();
 		egresar.setTerapeutaId(ingresar.getTerapeutaId());
 		egresar.setNmbrs(ingresar.getNmbrs());
 		egresar.setApllds(ingresar.getApllds());

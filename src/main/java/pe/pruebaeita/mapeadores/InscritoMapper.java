@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import pe.pruebaeita.modelos.Inscrito;
 import pe.pruebaeita.modelos.Modalidad;
 import pe.pruebaeita.repositorios.IContactoRepository;
-import pe.pruebaeita.repositorios.ITerapeutaRepository;
+import pe.pruebaeita.repositorios.IEspecialistaRepository;
 import pe.pruebaeita.transferencias.InscritoDto;
 
 @Component
@@ -19,7 +19,7 @@ public class InscritoMapper {
 	private IContactoRepository repo_contactos;
 	
 	@Autowired
-	private ITerapeutaRepository repo_terapeutas;
+	private IEspecialistaRepository repo_terapeutas;
 	
 	public InscritoDto volverDto(Inscrito ingresar) {
 		InscritoDto egresar = new InscritoDto();

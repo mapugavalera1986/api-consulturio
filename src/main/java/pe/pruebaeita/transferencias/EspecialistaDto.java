@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TerapeutaDto {
+public class EspecialistaDto {
 	private int terapeutaId;
 	private String nmbrs;
 	private String apllds;

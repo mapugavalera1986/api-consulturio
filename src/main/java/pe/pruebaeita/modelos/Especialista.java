@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Terapeutas")
-public class Terapeuta {
+public class Especialista {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int terapeutaId;

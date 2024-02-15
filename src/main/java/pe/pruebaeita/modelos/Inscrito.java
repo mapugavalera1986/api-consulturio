@@ -35,7 +35,7 @@ public class Inscrito {
 	private Modalidad mPreferida;
 	@ManyToOne
 	@JoinColumn(name = "terapeuta_id")
-	private Terapeuta tPreferido;
+	private Especialista tPreferido;
 	@ManyToOne
 	@JoinColumn(name = "contacto_id")
 	private Contacto contacto;
