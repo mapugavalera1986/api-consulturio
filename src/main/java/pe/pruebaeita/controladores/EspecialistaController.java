@@ -47,25 +47,34 @@ public class EspecialistaController implements IDatosController<EspecialistaDto>
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<EspecialistaDto> agregar(@RequestBody EspecialistaDto nuevo) {
-		EspecialistaDto guardado = mapear.volverDto(repo_especialistas.save(mapear.volverEntidad(nuevo)));
-		return new ResponseEntity<EspecialistaDto>(guardado, HttpStatus.OK);
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<EspecialistaDto> modificar(@PathVariable int id, @RequestBody EspecialistaDto cambiar) {
-		Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
-		if (buscado.isPresent()) {
-			cambiar.setId(id);
-			EspecialistaDto guardado = mapear.volverDto(repo_especialistas.save(mapear.volverEntidad(cambiar)));
+		try {
+			EspecialistaDto guardado = mapear.volverDto(repo_especialistas.save(mapear.volverEntidad(nuevo)));
 			return new ResponseEntity<EspecialistaDto>(guardado, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	@PutMapping("/{id}")
+	public ResponseEntity<EspecialistaDto> modificar(@PathVariable int id, @RequestBody EspecialistaDto cambiar) {
+		try {
+			Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
+			if (buscado.isPresent()) {
+				cambiar.setId(id);
+				EspecialistaDto guardado = mapear.volverDto(repo_especialistas.save(mapear.volverEntidad(cambiar)));
+				return new ResponseEntity<EspecialistaDto>(guardado, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable int id) {
 		Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
