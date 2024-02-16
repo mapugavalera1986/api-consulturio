@@ -21,11 +21,11 @@ import lombok.NoArgsConstructor;
 public class Contacto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int contactoId;
+	private int id;
 	private String nmbrs;
 	private String apllds;
 	private String dni;
-	private String correoE;
+	private String email;
 	private String telf;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contacto")
 	private List<Inscrito> inscritos;

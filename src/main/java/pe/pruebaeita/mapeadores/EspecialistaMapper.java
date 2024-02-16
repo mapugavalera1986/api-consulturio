@@ -4,40 +4,42 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
-import pe.pruebaeita.modelos.Especialidad;
+import pe.pruebaeita.acceso.IDatosMapper;
 import pe.pruebaeita.modelos.Especialista;
 import pe.pruebaeita.transferencias.EspecialistaDto;
+import pe.pruebaeita.xtras.Calcular;
 
 @Component
-public class EspecialistaMapper {
-
-	public EspecialistaDto volverDto (Especialista ingresar) {
+public class EspecialistaMapper implements IDatosMapper<EspecialistaDto, Especialista> {
+	
+	@Override
+	public EspecialistaDto volverDto(Especialista ingresar) {
 		EspecialistaDto egresar = new EspecialistaDto();
-		egresar.setTerapeutaId(ingresar.getTerapeutaId());
+		egresar.setId(ingresar.getId());
 		egresar.setNmbrs(ingresar.getNmbrs());
 		egresar.setApllds(ingresar.getApllds());
-		egresar.setFNacimiento(ingresar.getFNacimiento().toString());
+		egresar.setNacimiento(ingresar.getNacimiento().toString());
+		egresar.setEdad(Calcular.calcEdadYears(ingresar.getNacimiento()));
+		egresar.setDireccn(ingresar.getDireccn());
 		egresar.setDni(ingresar.getDni());
 		egresar.setRuc(ingresar.getRuc());
-		egresar.setDireccn(ingresar.getDireccn());
-		egresar.setCorreoE(ingresar.getCorreoE());
+		egresar.setEmail(ingresar.getEmail());
 		egresar.setTelf(ingresar.getTelf());
-		egresar.setEspecialidad(ingresar.getEspecialidad().name());
 		return egresar;
 	}
 	
+	@Override
 	public Especialista volverEntidad(EspecialistaDto ingresar) {
 		Especialista egresar = new Especialista();
-		egresar.setTerapeutaId(ingresar.getTerapeutaId());
+		egresar.setId(ingresar.getId());
 		egresar.setNmbrs(ingresar.getNmbrs());
 		egresar.setApllds(ingresar.getApllds());
-		egresar.setFNacimiento(LocalDate.parse(ingresar.getFNacimiento()));
+		egresar.setNacimiento(LocalDate.parse(ingresar.getNacimiento()));
+		egresar.setDireccn(ingresar.getDireccn());
 		egresar.setDni(ingresar.getDni());
 		egresar.setRuc(ingresar.getRuc());
-		egresar.setDireccn(ingresar.getDireccn());
-		egresar.setCorreoE(ingresar.getCorreoE());
+		egresar.setEmail(ingresar.getEmail());
 		egresar.setTelf(ingresar.getTelf());
-		egresar.setEspecialidad(Especialidad.valueOf(ingresar.getEspecialidad()));
 		return egresar;
 	}
 }

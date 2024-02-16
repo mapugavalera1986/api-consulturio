@@ -23,19 +23,19 @@ import lombok.NoArgsConstructor;
 public class Inscrito {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int inscritoId;
+	private int id;
 	private String nmbrs;
 	private String apllds;
+	private LocalDate nacimiento;
 	private String dni;
-	private LocalDate fNacimiento;
 	private String direccn;
-	private String correoE;
+	private String email;
 	private String telf;
 	@Enumerated(EnumType.STRING)
-	private Modalidad mPreferida;
+	private Modalidad modalidad;
 	@ManyToOne
-	@JoinColumn(name = "terapeuta_id")
-	private Especialista tPreferido;
+	@JoinColumn(name = "especialista_id")
+	private Especialista especialista;
 	@ManyToOne
 	@JoinColumn(name = "contacto_id")
 	private Contacto contacto;

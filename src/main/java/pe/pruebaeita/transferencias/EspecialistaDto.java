@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class EspecialistaDto {
-	private int terapeutaId;
+	private int id;
 	private String nmbrs;
 	private String apllds;
-	private String fNacimiento;
+	private String nacimiento;
+	private int edad;
 	private String dni;
-	private String ruc;
-	private String direccn;
-	private String correoE;
+	private String ruc = "";
+	private String direccn = "";
+	private String email;
 	private String telf;
-	private String especialidad;
 }

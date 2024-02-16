@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import pe.pruebaeita.modelos.Contacto;
+import pe.pruebaeita.modelos.Especialista;
 import pe.pruebaeita.modelos.Inscrito;
 
 @Repository

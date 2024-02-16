@@ -3,6 +3,8 @@ package pe.pruebaeita.modelos;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,18 +26,16 @@ import lombok.NoArgsConstructor;
 public class Especialista {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int terapeutaId;
+	private int id;
 	private String nmbrs;
 	private String apllds;
-	private LocalDate fNacimiento;
+	private LocalDate nacimiento;
 	private String dni;
 	private String ruc;
 	private String direccn;
-	private String correoE;
+	private String email;
 	private String telf;
-	@Enumerated(EnumType.STRING)
-	private Especialidad especialidad;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tPreferido")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "especialista")
 	private List<Inscrito> inscritos;
 	//private LocalDate fregistro;
 }

@@ -11,15 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class InscritoDto {
-	private int inscritoId;
+	private int id;
 	private String nmbrs;
 	private String apllds;
-	private String dni;
-	private String fNacimiento;
+	private String nacimiento;
+	private int edad;
+	private String dni ="";
 	private String direccn;
-	private String correoE;
-	private String telf;
-	private String mPreferida;
-	private int tPreferidoId;
-	private int contactoId;
+	private String email = "";
+	private String telf = "";
+	private String modalidad;
+	private int especialista_id;
+	private int contacto_id;
 }
