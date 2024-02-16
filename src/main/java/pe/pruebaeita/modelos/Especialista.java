@@ -3,6 +3,8 @@ package pe.pruebaeita.modelos;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
+
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.FetchType;
@@ -27,6 +29,8 @@ public class Especialista {
 	private String nmbrs;
 	private String apllds;
 	private LocalDate nacimiento;
+	@Formula("TIMESTAMPDIFF(YEAR, nacimiento, curdate())")
+	private int edad;
 	private String dni;
 	private String ruc;
 	private String direccn;

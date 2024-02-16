@@ -2,6 +2,8 @@ package pe.pruebaeita.modelos;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Formula;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,6 +29,8 @@ public class Inscrito {
 	private String nmbrs;
 	private String apllds;
 	private LocalDate nacimiento;
+	@Formula("TIMESTAMPDIFF(YEAR, nacimiento, curdate())")
+	private int edad;
 	private String dni;
 	private String direccn;
 	private String email;

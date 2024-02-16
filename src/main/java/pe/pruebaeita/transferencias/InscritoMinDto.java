@@ -1,7 +1,5 @@
 package pe.pruebaeita.transferencias;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -12,12 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ContactoDto {
-	private int id;
-	private String nmbrs;
-	private String apllds;
-	private String dni;
-	private String email;
-	private String telf;
-	private List<InscritoMinDto> inscritos;
+public class InscritoMinDto {
+	private String fullnombre;
+	private int edad;
+	private String modalidad;
 }

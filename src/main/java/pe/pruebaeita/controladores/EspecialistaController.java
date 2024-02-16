@@ -38,6 +38,15 @@ public class EspecialistaController implements IDatosController<EspecialistaDto>
 		return new ResponseEntity<List<EspecialistaDto>>(listar_todo, HttpStatus.OK);
 	}
 
+	@GetMapping("/prueba/{nombres}")
+	public ResponseEntity<?> prueba(@PathVariable String nombres) {
+		List<EspecialistaDto> prueba = repo_especialistas
+				.findByNmbrsContainingOrAplldsContainingIgnoreCase(nombres, nombres).stream().map(mapear::volverDto)
+				.collect(Collectors.toList());
+		System.out.println("Cosas" + prueba.size());
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<EspecialistaDto> obtener(@PathVariable int id) {
 		Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
@@ -49,44 +58,44 @@ public class EspecialistaController implements IDatosController<EspecialistaDto>
 	}
 
 	@PostMapping
-	public ResponseEntity<EspecialistaDto> agregar(@RequestBody EspecialistaDto nuevo) {
+	public ResponseEntity<String> agregar(@RequestBody EspecialistaDto nuevo) {
 		try {
-			EspecialistaDto guardado = mapear.volverDto(repo_especialistas.save(mapear.volverEntidad(nuevo)));
-			return new ResponseEntity<EspecialistaDto>(guardado, HttpStatus.OK);
+			repo_especialistas.save(mapear.volverEntidad(nuevo));
+			return new ResponseEntity<String>("Especialista ingresado con éxito", HttpStatus.OK);
 
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Error al intentar agregar especialista", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<EspecialistaDto> modificar(@PathVariable int id, @RequestBody EspecialistaDto cambiar) {
+	public ResponseEntity<String> modificar(@PathVariable int id, @RequestBody EspecialistaDto cambiar) {
 		try {
 			Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
 			if (buscado.isPresent()) {
 				cambiar.setId(id);
-				EspecialistaDto guardado = mapear.volverDto(repo_especialistas.save(mapear.volverEntidad(cambiar)));
-				return new ResponseEntity<EspecialistaDto>(guardado, HttpStatus.OK);
+				repo_especialistas.save(mapear.volverEntidad(cambiar));
+				return new ResponseEntity<String>("Se cambiaron los datos con éxito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<String>("No se encontró a especialista", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Búsqueda incorrecta", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable int id) {
+	public ResponseEntity<String> eliminar(@PathVariable int id) {
 		Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
 		try {
 			if (buscado.isPresent()) {
 				repo_especialistas.delete(mapear.volverEntidad(buscado.get()));
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<String>("Especialista eliminado con éxito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>("No se encontró a especialista", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias", HttpStatus.BAD_REQUEST);
 		}
 	}
 }

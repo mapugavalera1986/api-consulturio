@@ -1,5 +1,7 @@
 package pe.pruebaeita.transferencias;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -21,4 +23,5 @@ public class EspecialistaDto {
 	private String direccn = "";
 	private String email;
 	private String telf;
+	private List<InscritoMinDto> inscritos;
 }

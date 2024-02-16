@@ -26,21 +26,21 @@ import pe.pruebaeita.transferencias.InscritoDto;
 public class InscritoController implements IDatosController<InscritoDto> {
 
 	@Autowired
-	private IInscritoRepository repo_inscritos;
+	private IInscritoRepository repo_participantes;
 
 	@Autowired
 	private InscritoMapper mapear;
 
 	@GetMapping
 	public ResponseEntity<List<InscritoDto>> listarTodo() {
-		List<InscritoDto> listar_todo = repo_inscritos.findAll().stream().map(mapear::volverDto)
+		List<InscritoDto> listar_todo = repo_participantes.findAll().stream().map(mapear::volverDto)
 				.collect(Collectors.toList());
 		return new ResponseEntity<List<InscritoDto>>(listar_todo, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<InscritoDto> obtener(@PathVariable int id) {
-		Optional<InscritoDto> buscado = repo_inscritos.findById(id).map(mapear::volverDto);
+		Optional<InscritoDto> buscado = repo_participantes.findById(id).map(mapear::volverDto);
 		if (buscado.isPresent()) {
 			return new ResponseEntity<InscritoDto>(buscado.get(), HttpStatus.OK);
 		} else {
@@ -49,44 +49,44 @@ public class InscritoController implements IDatosController<InscritoDto> {
 	}
 
 	@PostMapping
-	public ResponseEntity<InscritoDto> agregar(@RequestBody InscritoDto nuevo) {
+	public ResponseEntity<String> agregar(@RequestBody InscritoDto nuevo) {
 		try {
-			InscritoDto guardado = mapear.volverDto(repo_inscritos.save(mapear.volverEntidad(nuevo)));
-			return new ResponseEntity<InscritoDto>(guardado, HttpStatus.OK);
+			repo_participantes.save(mapear.volverEntidad(nuevo));
+			return new ResponseEntity<String>("Inscrito ingresado con éxito", HttpStatus.OK);
 
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Error al intentar agregar participante", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<InscritoDto> modificar(@PathVariable int id, @RequestBody InscritoDto cambiar) {
+	public ResponseEntity<String> modificar(@PathVariable int id, @RequestBody InscritoDto cambiar) {
 		try {
-			Optional<InscritoDto> buscado = repo_inscritos.findById(id).map(mapear::volverDto);
+			Optional<InscritoDto> buscado = repo_participantes.findById(id).map(mapear::volverDto);
 			if (buscado.isPresent()) {
 				cambiar.setId(id);
-				InscritoDto guardado = mapear.volverDto(repo_inscritos.save(mapear.volverEntidad(cambiar)));
-				return new ResponseEntity<InscritoDto>(guardado, HttpStatus.OK);
+				repo_participantes.save(mapear.volverEntidad(cambiar));
+				return new ResponseEntity<String>("Se cambiaron los datos con éxito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<String>("No se encontró a participante", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Búsqueda incorrecta", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable int id) {
-		Optional<InscritoDto> buscado = repo_inscritos.findById(id).map(mapear::volverDto);
+	public ResponseEntity<String> eliminar(@PathVariable int id) {
+		Optional<InscritoDto> buscado = repo_participantes.findById(id).map(mapear::volverDto);
 		try {
 			if (buscado.isPresent()) {
-				repo_inscritos.delete(mapear.volverEntidad(buscado.get()));
-				return new ResponseEntity<>(HttpStatus.OK);
+				repo_participantes.delete(mapear.volverEntidad(buscado.get()));
+				return new ResponseEntity<String>("Inscrito eliminado con éxito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>("No se encontró a participante", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias", HttpStatus.BAD_REQUEST);
 		}
 	}
 }

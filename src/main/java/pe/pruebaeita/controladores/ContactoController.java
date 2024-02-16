@@ -49,44 +49,44 @@ public class ContactoController implements IDatosController<ContactoDto> {
 	}
 
 	@PostMapping
-	public ResponseEntity<ContactoDto> agregar(@RequestBody ContactoDto nuevo) {
+	public ResponseEntity<String> agregar(@RequestBody ContactoDto nuevo) {
 		try {
-			ContactoDto guardado = mapear.volverDto(repo_contactos.save(mapear.volverEntidad(nuevo)));
-			return new ResponseEntity<ContactoDto>(guardado, HttpStatus.OK);
+			repo_contactos.save(mapear.volverEntidad(nuevo));
+			return new ResponseEntity<String>("Contacto ingresado con éxito", HttpStatus.OK);
 
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Error al intentar agregar contacto", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ContactoDto> modificar(@PathVariable int id, @RequestBody ContactoDto cambiar) {
+	public ResponseEntity<String> modificar(@PathVariable int id, @RequestBody ContactoDto cambiar) {
 		try {
 			Optional<ContactoDto> buscado = repo_contactos.findById(id).map(mapear::volverDto);
 			if (buscado.isPresent()) {
 				cambiar.setId(id);
-				ContactoDto guardado = mapear.volverDto(repo_contactos.save(mapear.volverEntidad(cambiar)));
-				return new ResponseEntity<ContactoDto>(guardado, HttpStatus.OK);
+				repo_contactos.save(mapear.volverEntidad(cambiar));
+				return new ResponseEntity<String>("Se cambiaron los datos con éxito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<String>("No se encontró a contacto", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Búsqueda incorrecta", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable int id) {
+	public ResponseEntity<String> eliminar(@PathVariable int id) {
 		Optional<ContactoDto> buscado = repo_contactos.findById(id).map(mapear::volverDto);
 		try {
 			if (buscado.isPresent()) {
 				repo_contactos.delete(mapear.volverEntidad(buscado.get()));
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<String>("Contacto eliminado con éxito", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>("No se encontró a contacto", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias", HttpStatus.BAD_REQUEST);
 		}
 	}
 }
