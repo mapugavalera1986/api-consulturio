@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.pruebaeita.acceso.IDatosController;
+import pe.pruebaeita.controladores.interfaz.IDatosController;
 import pe.pruebaeita.mapeadores.InscritoMapper;
 import pe.pruebaeita.repositorios.IInscritoRepository;
 import pe.pruebaeita.transferencias.InscritoDto;

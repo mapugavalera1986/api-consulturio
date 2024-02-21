@@ -1,4 +1,4 @@
-package pe.pruebaeita.acceso;
+package pe.pruebaeita.controladores.interfaz;
 
 import java.util.List;
 
