@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pe.pruebaeita.acceso.IDatosMapper;
+import pe.pruebaeita.mapeadores.interfaz.IDatosMapper;
 import pe.pruebaeita.modelos.Inscrito;
 import pe.pruebaeita.modelos.Modalidad;
 import pe.pruebaeita.repositorios.IContactoRepository;
@@ -25,7 +25,8 @@ public class InscritoMapper implements IDatosMapper<InscritoDto, Inscrito> {
 	//Este DTO miniatura solo es para mostrar algunas cositas en la API. No se debe utilizar para otras operaciones.
 	public InscritoMinDto volverMinDto(Inscrito ingresar) {
 		InscritoMinDto egresar = new InscritoMinDto();
-		egresar.setFullnombre(ingresar.getNmbrs() + " " + ingresar.getApllds());
+		egresar.setNmbrs(ingresar.getNmbrs());
+		egresar.setApllds(ingresar.getApllds());
 		egresar.setEdad(ingresar.getEdad());
 		egresar.setModalidad(ingresar.getModalidad().name());
 		return egresar;

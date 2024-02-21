@@ -1,4 +1,4 @@
-package pe.pruebaeita.acceso;
+package pe.pruebaeita.mapeadores.interfaz;
 
 public interface IDatosMapper<T, Y> {
 	public T volverDto(Y ingresar);

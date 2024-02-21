@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pe.pruebaeita.acceso.IDatosMapper;
+import pe.pruebaeita.mapeadores.interfaz.IDatosMapper;
 import pe.pruebaeita.modelos.Contacto;
 import pe.pruebaeita.repositorios.IInscritoRepository;
 import pe.pruebaeita.transferencias.ContactoDto;

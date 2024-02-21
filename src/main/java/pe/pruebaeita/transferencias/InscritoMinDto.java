@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class InscritoMinDto {
-	private String fullnombre;
+	private String nmbrs;
+	private String apllds;
 	private int edad;
 	private String modalidad;
 }
