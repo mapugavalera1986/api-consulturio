@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.pruebaeita.controladores.interfaz.IDatosController;
@@ -46,6 +47,13 @@ public class ContactoController implements IDatosController<ContactoDto> {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@GetMapping("/buscar")
+	public ResponseEntity<List<ContactoDto>> buscar(@RequestParam String buscar) {
+		List<ContactoDto> lista_buscar = repo_contactos.findByText(buscar).stream().map(mapear::volverDto)
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<ContactoDto>>(lista_buscar, HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -86,7 +94,8 @@ public class ContactoController implements IDatosController<ContactoDto> {
 				return new ResponseEntity<>("No se encontró a contacto", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias",
+					HttpStatus.BAD_REQUEST);
 		}
 	}
 }

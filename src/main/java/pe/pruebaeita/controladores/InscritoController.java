@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.pruebaeita.controladores.interfaz.IDatosController;
@@ -26,21 +27,21 @@ import pe.pruebaeita.transferencias.InscritoDto;
 public class InscritoController implements IDatosController<InscritoDto> {
 
 	@Autowired
-	private IInscritoRepository repo_participantes;
+	private IInscritoRepository repo_inscritos;
 
 	@Autowired
 	private InscritoMapper mapear;
 
 	@GetMapping
 	public ResponseEntity<List<InscritoDto>> listarTodo() {
-		List<InscritoDto> listar_todo = repo_participantes.findAll().stream().map(mapear::volverDto)
+		List<InscritoDto> listar_todo = repo_inscritos.findAll().stream().map(mapear::volverDto)
 				.collect(Collectors.toList());
 		return new ResponseEntity<List<InscritoDto>>(listar_todo, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<InscritoDto> obtener(@PathVariable int id) {
-		Optional<InscritoDto> buscado = repo_participantes.findById(id).map(mapear::volverDto);
+		Optional<InscritoDto> buscado = repo_inscritos.findById(id).map(mapear::volverDto);
 		if (buscado.isPresent()) {
 			return new ResponseEntity<InscritoDto>(buscado.get(), HttpStatus.OK);
 		} else {
@@ -48,10 +49,17 @@ public class InscritoController implements IDatosController<InscritoDto> {
 		}
 	}
 
+	@GetMapping("/buscar")
+	public ResponseEntity<List<InscritoDto>> buscar(@RequestParam String buscar) {
+		List<InscritoDto> lista_buscar = repo_inscritos.findByText(buscar).stream().map(mapear::volverDto)
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<InscritoDto>>(lista_buscar, HttpStatus.OK);
+	}
+
 	@PostMapping
 	public ResponseEntity<String> agregar(@RequestBody InscritoDto nuevo) {
 		try {
-			repo_participantes.save(mapear.volverEntidad(nuevo));
+			repo_inscritos.save(mapear.volverEntidad(nuevo));
 			return new ResponseEntity<String>("Inscrito ingresado con éxito", HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -62,10 +70,10 @@ public class InscritoController implements IDatosController<InscritoDto> {
 	@PutMapping("/{id}")
 	public ResponseEntity<String> modificar(@PathVariable int id, @RequestBody InscritoDto cambiar) {
 		try {
-			Optional<InscritoDto> buscado = repo_participantes.findById(id).map(mapear::volverDto);
+			Optional<InscritoDto> buscado = repo_inscritos.findById(id).map(mapear::volverDto);
 			if (buscado.isPresent()) {
 				cambiar.setId(id);
-				repo_participantes.save(mapear.volverEntidad(cambiar));
+				repo_inscritos.save(mapear.volverEntidad(cambiar));
 				return new ResponseEntity<String>("Se cambiaron los datos con éxito", HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>("No se encontró a participante", HttpStatus.NOT_FOUND);
@@ -77,16 +85,17 @@ public class InscritoController implements IDatosController<InscritoDto> {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> eliminar(@PathVariable int id) {
-		Optional<InscritoDto> buscado = repo_participantes.findById(id).map(mapear::volverDto);
+		Optional<InscritoDto> buscado = repo_inscritos.findById(id).map(mapear::volverDto);
 		try {
 			if (buscado.isPresent()) {
-				repo_participantes.delete(mapear.volverEntidad(buscado.get()));
+				repo_inscritos.delete(mapear.volverEntidad(buscado.get()));
 				return new ResponseEntity<String>("Inscrito eliminado con éxito", HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>("No se encontró a participante", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias",
+					HttpStatus.BAD_REQUEST);
 		}
 	}
 }

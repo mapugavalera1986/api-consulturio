@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.pruebaeita.controladores.interfaz.IDatosController;
@@ -38,15 +39,6 @@ public class EspecialistaController implements IDatosController<EspecialistaDto>
 		return new ResponseEntity<List<EspecialistaDto>>(listar_todo, HttpStatus.OK);
 	}
 
-	@GetMapping("/prueba/{nombres}")
-	public ResponseEntity<?> prueba(@PathVariable String nombres) {
-		List<EspecialistaDto> prueba = repo_especialistas
-				.findByNmbrsContainingOrAplldsContainingIgnoreCase(nombres, nombres).stream().map(mapear::volverDto)
-				.collect(Collectors.toList());
-		System.out.println("Cosas" + prueba.size());
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
 	@GetMapping("/{id}")
 	public ResponseEntity<EspecialistaDto> obtener(@PathVariable int id) {
 		Optional<EspecialistaDto> buscado = repo_especialistas.findById(id).map(mapear::volverDto);
@@ -55,6 +47,13 @@ public class EspecialistaController implements IDatosController<EspecialistaDto>
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@GetMapping("/buscar")
+	public ResponseEntity<List<EspecialistaDto>> buscar(@RequestParam String buscar) {
+		List<EspecialistaDto> lista_buscar = repo_especialistas.findByText(buscar).stream().map(mapear::volverDto)
+				.collect(Collectors.toList());
+		return new ResponseEntity<List<EspecialistaDto>>(lista_buscar, HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -95,7 +94,8 @@ public class EspecialistaController implements IDatosController<EspecialistaDto>
 				return new ResponseEntity<>("No se encontró a especialista", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Imposible eliminar. Verifica que no haya dependencias",
+					HttpStatus.BAD_REQUEST);
 		}
 	}
 }
